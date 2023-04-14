@@ -108,7 +108,7 @@ public class StringListImpl implements StringList {
     }
 
     @Override
-    public boolean equals(String[] w) {        //неправильный метод
+    public boolean equals(String[] w) {
         return Arrays.equals(array, w);
     }
 
