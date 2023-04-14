@@ -112,7 +112,7 @@ public class StringListIntImpl {
         return size == 0;
     }
 
-    public void removeAll() {
+    public void removeAllOf() {
         size = 0;
     }
 
