@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 public class StringListIntImpl {
-    private final Integer[] array;
+    private Integer[] array;
     private int size;
 
     public StringListIntImpl() {
@@ -13,6 +13,9 @@ public class StringListIntImpl {
 
     public StringListIntImpl(int initSize) {
         array = new Integer[initSize];
+    }
+    private void grow(){
+        Arrays.copyOf(array, size + size/2);
     }
 
     public Integer add(Integer item) {
@@ -128,7 +131,7 @@ public class StringListIntImpl {
 
     private void validateSize() {
         if (size == array.length) {
-            throw new ArrayIsFullException("Массив переполнен");
+            grow();
         }
     }
 
@@ -138,16 +141,40 @@ public class StringListIntImpl {
         }
     }
     public void sort(Integer[] arr){
-        for (int i = 1; i < arr.length; i++) {
-            int temp = arr[i];
-            int j = i;
-            while (j > 0 && arr[j - 1] >= temp) {
-                arr[j] = arr[j - 1];
-                j--;
-            }
-            arr[j] = temp;
+ quickSort(arr, arr.length + 1, 0);
+    }
+    private void quickSort(Integer[] arr, int end, int begin){
+        if (begin < end) {
+            int partitionIndex = partition(arr, begin, end);
+
+            quickSort(arr, begin, partitionIndex - 1);
+            quickSort(arr, partitionIndex + 1, end);
         }
     }
+
+    private int partition(Integer[] arr, int begin, int end) {
+        int pivot = arr[end];
+        int i = (begin - 1);
+
+        for (int j = begin; j < end; j++) {
+            if (arr[j] <= pivot) {
+                i++;
+
+                swapElement(arr, i, j);
+            }
+        }
+
+        swapElement(arr, i + 1, end);
+        return i + 1;
+    }
+
+    private void swapElement(Integer[] arr, int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+
+
     public boolean binarySearch(Integer[] arr, Integer item){
         int min = 0;
         int max = arr.length - 1;
